@@ -27,7 +27,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
 
     await page.locator('.day[data-day="B"]').click();
     await expect(page.locator('#title')).toHaveText('Día B');
-    await expect(page.locator('.exercise')).toContainText('Peso muerto rumano');
+    await expect(page.locator('.exercise[data-exercise="Peso muerto rumano"]')).toBeVisible();
 
     await page.locator('.tech').first().click();
     await expect(page.locator('#modal')).not.toHaveClass(/hidden/);
@@ -58,7 +58,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await squat.locator('.ri').first().selectOption('3');
     await squat.locator('.check').first().click();
 
-    await expect(squat.locator('.check.done')).toHaveCount(1);
+    await expect(squat.locator('.check').first()).toHaveClass(/done/);
     await expect(page.locator('#timer')).not.toHaveClass(/hidden/);
     await expect(squat.locator('.nextadvice')).toContainText('subir');
 
@@ -78,7 +78,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await squat.locator('.ri').first().selectOption('2');
     await squat.locator('.check').first().click();
 
-    await page.locator('#rpe').fill('7');
+    await page.locator('#rpe').selectOption('7');
     await page.locator('#duration').fill('45');
     await page.locator('#boxing').selectOption('4');
     await page.locator('#boxingIntensity').selectOption('technical');
@@ -87,6 +87,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
 
     await expect(page.locator('#title')).toHaveText('Día A');
     await page.locator('.tab[data-v="progress"]').click();
+    await page.waitForFunction(() => !!localStorage.getItem('bstSessionsV2'));
     await expect(page.locator('#kpis')).toContainText('1');
     await expect(page.locator('#planner')).not.toBeEmpty();
 
