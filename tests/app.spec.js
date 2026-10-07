@@ -11,8 +11,8 @@ async function reset(page){
 test.describe('Boxing Strength Tracker - core flows', () => {
   test.beforeEach(async ({ page }) => {
     const errors = [];
-    page.on('pageerror', e => errors.push(e.message));
-    page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    page.on('pageerror', e => { errors.push(e.message); console.log('PAGEERROR', e.message); });
+    page.on('console', m => { if (m.type() === 'error') { errors.push(m.text()); console.log('CONSOLE_ERROR', m.text()); } });
     await page.addInitScript(() => {
       window.__e2eErrors = [];
       window.addEventListener('error', e => window.__e2eErrors.push(e.message));
