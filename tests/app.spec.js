@@ -62,6 +62,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await expect(page.locator('#timer')).not.toHaveClass(/hidden/);
     await expect(squat.locator('.nextadvice')).toContainText('subir');
 
+    await page.locator('#skip').click();
     const before = await squat.locator('.set').count();
     await squat.locator('.add').click();
     await expect(squat.locator('.set')).toHaveCount(before + 1);
@@ -83,6 +84,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await page.locator('#boxing').selectOption('4');
     await page.locator('#boxingIntensity').selectOption('technical');
     await page.locator('#notes').fill('E2E test');
+    await page.locator('#skip').click();
     await page.locator('#save').click();
 
     await expect(page.locator('#title')).toHaveText('Día A');
