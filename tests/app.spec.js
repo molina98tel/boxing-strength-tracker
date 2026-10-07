@@ -69,8 +69,10 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await squat.locator('.add').click();
     await expect(squat.locator('.set')).toHaveCount(before + 1);
 
+    await squat.locator('.check').first().click();
+    await expect(page.locator('#timer')).not.toHaveClass(/hidden/);
     await page.locator('#plus').click();
-    await page.locator('#skip').click();
+    await page.locator('#skip').click({force:true});
     await expect(page.locator('#timer')).toHaveClass(/hidden/);
   });
 
@@ -94,6 +96,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await page.locator('.tab[data-v="progress"]').click();
     await page.waitForFunction(() => !!localStorage.getItem('bstSessionsV2'));
     await page.locator('.tab[data-v="progress"]').click();
+    await expect(page.locator('#progress')).not.toHaveClass(/hidden/);
     await expect(page.locator('#kpis')).toContainText('1');
     await expect(page.locator('#planner')).not.toBeEmpty();
 
