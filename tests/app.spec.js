@@ -69,7 +69,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await squat.locator('.add').click();
     await expect(squat.locator('.set')).toHaveCount(before + 1);
 
-    await squat.locator('.check').first().click();
+    await squat.locator('.check').nth(1).click();
     await expect(page.locator('#timer')).not.toHaveClass(/hidden/);
     await page.locator('#plus').click();
     await page.locator('#skip').click({force:true});
