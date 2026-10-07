@@ -18,7 +18,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
       window.addEventListener('error', e => window.__e2eErrors.push(e.message));
     });
     await reset(page);
-    page.on('dialog', async dialog => await dialog.accept());
+    page.on('dialog', async dialog => dialog.type() === 'prompt' ? await dialog.accept('1') : await dialog.accept());
   });
 
   test('loads, switches days, opens technique and substitutes an exercise', async ({ page }) => {
@@ -62,7 +62,8 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await expect(page.locator('#timer')).not.toHaveClass(/hidden/);
     await expect(squat.locator('.nextadvice')).toContainText('subir');
 
-    await page.locator('#skip').click();
+    await page.locator('#skip').click({force:true});
+    await expect(page.locator('#timer')).toHaveClass(/hidden/);
     const before = await squat.locator('.set').count();
     await squat.locator('.add').click();
     await expect(squat.locator('.set')).toHaveCount(before + 1);
@@ -84,12 +85,14 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await page.locator('#boxing').selectOption('4');
     await page.locator('#boxingIntensity').selectOption('technical');
     await page.locator('#notes').fill('E2E test');
-    await page.locator('#skip').click();
+    await page.locator('#skip').click({force:true});
+    await expect(page.locator('#timer')).toHaveClass(/hidden/);
     await page.locator('#save').click();
 
     await expect(page.locator('#title')).toHaveText('Día A');
     await page.locator('.tab[data-v="progress"]').click();
     await page.waitForFunction(() => !!localStorage.getItem('bstSessionsV2'));
+    await page.locator('.tab[data-v="progress"]').click();
     await expect(page.locator('#kpis')).toContainText('1');
     await expect(page.locator('#planner')).not.toBeEmpty();
 
