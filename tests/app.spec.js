@@ -39,6 +39,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await rdl.locator('.swap').click();
     await expect(page.locator('.exercise[data-exercise="Hip thrust"]')).toBeVisible();
     await page.reload();
+    await page.locator('.day[data-day="B"]').click();
     await expect(page.locator('.exercise[data-exercise="Hip thrust"]')).toBeVisible();
   });
 
