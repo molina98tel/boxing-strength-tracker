@@ -108,7 +108,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
   test('settings, export, import and clear work', async ({ page }) => {
     await page.locator('.tab[data-v="settings"]').click();
     await page.locator('#name').fill('Javier');
-    await page.locator('#goal').selectOption('strength');
+    await page.locator('#goal').selectOption('hybrid');
     await page.locator('#saveSettings').click();
 
     const downloadPromise = page.waitForEvent('download');
