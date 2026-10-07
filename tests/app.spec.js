@@ -34,12 +34,12 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await page.locator('#close').click();
     await expect(page.locator('#modal')).toHaveClass(/hidden/);
 
-    const firstSwap = page.locator('.swap').first();
-    await expect(firstSwap).toBeVisible();
-    await firstSwap.click();
-    await expect(page.locator('.exercise').first()).not.toContainText('Peso muerto rumano');
+    const rdl = page.locator('.exercise[data-exercise="Peso muerto rumano"]');
+    await expect(rdl.locator('.swap')).toBeVisible();
+    await rdl.locator('.swap').click();
+    await expect(page.locator('.exercise[data-exercise="Hip thrust"]')).toBeVisible();
     await page.reload();
-    await expect(page.locator('.exercise').first()).not.toContainText('Peso muerto rumano');
+    await expect(page.locator('.exercise[data-exercise="Hip thrust"]')).toBeVisible();
   });
 
   test('target load, set completion, timer, advice and add-set work', async ({ page }) => {
@@ -135,6 +135,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
       mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(fixture))
     });
+    await page.waitForFunction(() => !!localStorage.getItem('bstSessionsV2'));
     await expect(page.locator('#kpis')).toContainText('1');
     await expect(page.locator('#goalsList')).toContainText('Sentadilla');
 
