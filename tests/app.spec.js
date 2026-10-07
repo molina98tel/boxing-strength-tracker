@@ -79,7 +79,7 @@ test.describe('Boxing Strength Tracker - core flows', () => {
     await squat.locator('.check').first().click();
 
     await page.locator('#rpe').selectOption('7');
-    await page.locator('#duration').fill('45');
+    await page.locator('#duration').selectOption('45');
     await page.locator('#boxing').selectOption('4');
     await page.locator('#boxingIntensity').selectOption('technical');
     await page.locator('#notes').fill('E2E test');
